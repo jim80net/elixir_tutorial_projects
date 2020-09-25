@@ -1,5 +1,11 @@
-# Chat
+# A Chat Room in 8 Minutes with Phoenix
 
+by [Elixir Casts](https://www.youtube.com/channel/UCEJIWmO9DIE83i6_qmJXqjQ)
+
+
+My source code to the [Youtube tutorial video](https://www.youtube.com/watch?v=ZUNzXbIP_FQ)
+
+# Chat
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
