@@ -18,7 +18,11 @@ defmodule HelloWeb.PageController do
     redirect(conn, external: "https://hexdocs.pm/phoenix/controllers.html#content")
   end
   def index(conn, _params) do
-    render(conn, :index)
+    conn
+    |> put_flash(:info, "Welcome to Phoenix, from flash info!")
+    |> put_flash(:error, "Let's pretend we have an error.")
+    |> redirect(to: Routes.page_path(conn, :redirect_test))
+    #|> render(:index)
   end
 
   def index_admin(conn, _params) do
