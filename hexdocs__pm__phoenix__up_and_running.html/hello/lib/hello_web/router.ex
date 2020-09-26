@@ -2,7 +2,7 @@ defmodule HelloWeb.Router do
   use HelloWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["html","text","json"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
