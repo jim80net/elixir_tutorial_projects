@@ -21,6 +21,9 @@ defmodule HelloWeb.Router do
     get "/hello", HelloController, :index
     get "/hello/:messenger", HelloController, :show
     get "/redirect_test", PageController, :redirect_test
+
+    resources "/users", UserController
+
   end
 
   # Other scopes may use custom stacks.
