@@ -1,13 +1,24 @@
 defmodule HelloWeb.Router do
   use HelloWeb, :router
 
-  defp authenticate_user(conn, _) do
+  defp needs_authenticated_user(conn, _) do
     case get_session(conn, :user_id) do
       nil ->
         conn
         |> Phoenix.Controller.put_flash(:error, "Login required")
-        |> Phoenix.Controller.redirect(to: "/")
+        |> Phoenix.Controller.redirect(to: "/sessions/new")
         |> halt()
+
+      user_id ->
+        assign(conn, :current_user, Hello.Accounts.get_user!(user_id))
+    end
+  end
+
+  defp authenticate_user(conn, _) do
+    case get_session(conn, :user_id) do
+      nil ->
+        conn
+
       user_id ->
         assign(conn, :current_user, Hello.Accounts.get_user!(user_id))
     end
@@ -20,6 +31,11 @@ defmodule HelloWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug HelloWeb.Plugs.Locale, "en"
+    plug :authenticate_user
+  end
+
+  pipeline :needs_authentication do
+    plug :needs_authenticated_user
   end
 
   pipeline :api do
@@ -34,7 +50,6 @@ defmodule HelloWeb.Router do
     get "/hello/:messenger", HelloController, :show
     get "/redirect_test", PageController, :redirect_test
 
-    resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create, :delete], singleton: true
   end
 
@@ -47,10 +62,12 @@ defmodule HelloWeb.Router do
 
   scope "/admin", HelloWeb do
     pipe_through :browser
+    pipe_through :needs_authentication
 
     get "/", PageController, :index_admin
     get "/hello", HelloController, :index_admin
     get "/hello/:messenger", HelloController, :show_admin
+    resources "/users", UserController
   end
 
   # Enables LiveDashboard only for development

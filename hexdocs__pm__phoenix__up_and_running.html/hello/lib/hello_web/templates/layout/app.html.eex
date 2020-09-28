@@ -18,6 +18,7 @@
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
                   <li>Locale: <%= @locale %></li>
+                  <li><%= login_line(@conn, assigns) %></li>
 
           </ul>
         </nav>

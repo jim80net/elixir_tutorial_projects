@@ -9,10 +9,11 @@ defmodule Hello.Accounts do
   alias Hello.Accounts.{User, Credential}
 
   def authenticate_by_email_password(email, _password) do
-    query = 
-      from u in User, 
+    query =
+      from u in User,
         inner_join: c in assoc(u, :credential),
         where: c.email == ^email
+
     case Repo.one(query) do
       %User{} = user -> {:ok, user}
       nil -> {:error, :unauthorized}
@@ -49,9 +50,9 @@ defmodule Hello.Accounts do
 
   """
   def get_user!(id) do
-   User
-   |> Repo.get!(id)
-   |> Repo.preload(:credential)
+    User
+    |> Repo.get!(id)
+    |> Repo.preload(:credential)
   end
 
   @doc """
@@ -120,7 +121,6 @@ defmodule Hello.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
-
 
   @doc """
   Returns the list of credentials.
