@@ -3,13 +3,14 @@ defmodule HelloWeb.PageView do
 
   def render("myindex.html", assigns) do
     require Logger
-    Logger.info inspect(assigns, pretty: true)
-  end
-  def render("index.json", %{pages: pages}) do
-    %{data: render_many(pages, HelloWeb.PageView,"page.json")}
+    Logger.info(inspect(assigns, pretty: true))
   end
 
-  def render("show.json", %{page: page}) do 
+  def render("index.json", %{pages: pages}) do
+    %{data: render_many(pages, HelloWeb.PageView, "page.json")}
+  end
+
+  def render("show.json", %{page: page}) do
     %{data: render_one(page, HelloWeb.PageView, "page.json")}
   end
 

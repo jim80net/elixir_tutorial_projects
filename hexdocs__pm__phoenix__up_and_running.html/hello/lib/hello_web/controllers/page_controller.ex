@@ -1,7 +1,6 @@
 defmodule HelloWeb.PageController do
   use HelloWeb, :controller
 
-
   def index(conn, %{"_format" => "json"}) do
     pages = [%{title: "foo"}, %{title: "bar"}]
     render(conn, :index, pages: pages)
@@ -12,12 +11,15 @@ defmodule HelloWeb.PageController do
     |> put_resp_content_type("text/plain")
     |> send_resp(201, "")
   end
+
   def index(conn, %{"redirect" => "true"}) do
     redirect(conn, to: Routes.page_path(conn, :redirect_test))
   end
+
   def index(conn, %{"redirect" => "external"}) do
     redirect(conn, external: "https://hexdocs.pm/phoenix/controllers.html#content")
   end
+
   def index(conn, _params) do
     pages = [%{title: "foo"}, %{title: "bar"}]
     render(conn, :index, pages: pages)

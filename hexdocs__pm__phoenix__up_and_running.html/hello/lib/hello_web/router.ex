@@ -1,8 +1,20 @@
 defmodule HelloWeb.Router do
   use HelloWeb, :router
 
+  defp authenticate_user(conn, _) do
+    case get_session(conn, :user_id) do
+      nil ->
+        conn
+        |> Phoenix.Controller.put_flash(:error, "Login required")
+        |> Phoenix.Controller.redirect(to: "/")
+        |> halt()
+      user_id ->
+        assign(conn, :current_user, Hello.Accounts.get_user!(user_id))
+    end
+  end
+
   pipeline :browser do
-    plug :accepts, ["html","text","json"]
+    plug :accepts, ["html", "text", "json"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
@@ -23,7 +35,7 @@ defmodule HelloWeb.Router do
     get "/redirect_test", PageController, :redirect_test
 
     resources "/users", UserController
-
+    resources "/sessions", SessionController, only: [:new, :create, :delete], singleton: true
   end
 
   # Other scopes may use custom stacks.
@@ -35,7 +47,7 @@ defmodule HelloWeb.Router do
 
   scope "/admin", HelloWeb do
     pipe_through :browser
-    
+
     get "/", PageController, :index_admin
     get "/hello", HelloController, :index_admin
     get "/hello/:messenger", HelloController, :show_admin
