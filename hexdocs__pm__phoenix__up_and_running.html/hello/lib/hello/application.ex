@@ -13,6 +13,8 @@ defmodule Hello.Application do
       HelloWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Hello.PubSub},
+      # Start the Presence subsytem
+      HelloWeb.Presence,
       # Start the Endpoint (http/https)
       HelloWeb.Endpoint
       # Start a worker by calling: Hello.Worker.start_link(arg)

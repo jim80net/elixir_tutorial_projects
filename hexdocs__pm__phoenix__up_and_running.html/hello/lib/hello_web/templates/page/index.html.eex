@@ -6,6 +6,7 @@
   <%= render("test.html", message: "Hello from the sibling template!") %>
 </section>
 <section>
+<div id="presence"></div>
 <div id="messages" role="log" aria-live="polite"></div>
 <input id="chat-input" type="text"></input>
 </section>
