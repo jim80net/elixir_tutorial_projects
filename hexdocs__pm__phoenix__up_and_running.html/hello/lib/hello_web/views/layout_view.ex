@@ -13,7 +13,10 @@ defmodule HelloWeb.LayoutView do
         method: :delete
       )
     else
-      link("Log In", to: Routes.session_path(conn, :new))
+      [
+        link("Log In", to: Routes.session_path(conn, :new)),
+        link("Create Account", to: Routes.user_path(conn, :new))
+      ]
     end
   end
 end

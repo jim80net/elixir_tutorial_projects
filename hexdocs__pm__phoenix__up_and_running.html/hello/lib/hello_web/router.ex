@@ -50,6 +50,7 @@ defmodule HelloWeb.Router do
     get "/hello/:messenger", HelloController, :show
     get "/redirect_test", PageController, :redirect_test
 
+    resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete], singleton: true
   end
 
@@ -58,6 +59,11 @@ defmodule HelloWeb.Router do
     pipe_through :api
 
     get "/hello/:messenger", HelloController, :show_api
+  end
+
+  scope "/cms", HelloWeb.CMS, as: :cms do
+    pipe_through [:browser, :needs_authenticated_user]
+    resources "/pages", PageController
   end
 
   scope "/admin", HelloWeb do
