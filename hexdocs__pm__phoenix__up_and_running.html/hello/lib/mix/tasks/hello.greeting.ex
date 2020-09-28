@@ -9,6 +9,6 @@ defmodule Mix.Tasks.Hello.Greeting do
 
   def run(args) do
     Mix.Task.run("app.start")
-    Mix.shell().info("Greetings from the Hello Phoenix Application #{IO.inspect args}")
+    Mix.shell().info("Greetings from the Hello Phoenix Application #{IO.inspect(args)}")
   end
 end
