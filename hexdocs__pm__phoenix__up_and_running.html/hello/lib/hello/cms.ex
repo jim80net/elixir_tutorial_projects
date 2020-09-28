@@ -18,8 +18,7 @@ defmodule Hello.CMS do
 
   """
   def list_pages do
-    Page
-    |> Repo.all()
+    Repo.all(from(p in Page, order_by: [desc: p.views]))
     |> Repo.preload(author: [user: :credential])
   end
 
@@ -55,6 +54,15 @@ defmodule Hello.CMS do
       {:error, %Ecto.Changeset{}}
 
   """
+
+  def inc_page_views(%Page{} = page) do
+    {1, [%Page{views: views}]} =
+      from(p in Page, where: p.id == ^page.id, select: [:views])
+      |> Repo.update_all(inc: [views: 1])
+
+    put_in(page.views, views)
+  end
+
   def create_page(%Author{} = author, attrs \\ %{}) do
     %Page{}
     |> Page.changeset(attrs)
