@@ -5,22 +5,40 @@ defmodule HelloWeb.CMS.PageController do
   alias Hello.CMS.Page
 
   plug :require_existing_author
+  plug :can_edit when action in [:show, :edit, :update, :delete]
   plug :authorize_page when action in [:edit, :update, :delete]
 
-  defp require_existing_author(conn, _) do 
+  defp require_existing_author(conn, _) do
     author = CMS.ensure_author_exists(conn.assigns.current_user)
     assign(conn, :current_author, author)
   end
 
-  defp authorize_page(conn, _) do
+  def can_edit(conn, _) do
+    # IO.inspect CMS.get_page!(conn.params["id"]).author_id
+    # IO.inspect   conn.assigns.current_author.id
     page = CMS.get_page!(conn.params["id"])
-    
+
     if conn.assigns.current_author.id == page.author_id do
       assign(conn, :page, page)
     else
       conn
+    end
+  end
+
+  defp authorize_page(conn, _) do
+    redirect_to =
+      case conn.params["redirect"] do
+        nil -> Routes.cms_page_path(conn, :show, conn.params["id"])
+        path -> path
+      end
+
+    if Map.has_key?(conn.assigns, :page) do
+      conn
+    else
+      # IO.inspect Map.keys conn
+      conn
       |> put_flash(:error, "You can't modify that page")
-      |> redirect(to: Routes.cms_page_path(conn, :show, conn.params["id"]))
+      |> redirect(to: redirect_to)
       |> halt()
     end
   end
@@ -58,7 +76,6 @@ defmodule HelloWeb.CMS.PageController do
   end
 
   def update(conn, %{"page" => page_params}) do
-
     case CMS.update_page(conn.assigns.page, page_params) do
       {:ok, page} ->
         conn

@@ -25,5 +25,8 @@
 
 </ul>
 
+<%= if @conn.assigns.current_author.id == @conn.assigns.page.author.id do%>
 <span><%= link "Edit", to: Routes.cms_page_path(@conn, :edit, @page) %></span>
+<span><%= link "Delete", to: Routes.cms_page_path(@conn, :delete, @page), method: :delete, data: [confirm: "Are you sure?"] %></span>
+<% end %>
 <span><%= link "Back", to: Routes.cms_page_path(@conn, :index) %></span>

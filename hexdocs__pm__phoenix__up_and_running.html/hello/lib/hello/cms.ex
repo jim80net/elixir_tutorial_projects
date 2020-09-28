@@ -69,8 +69,9 @@ defmodule Hello.CMS do
     |> Repo.insert()
     |> handle_existing_author()
   end
-  
+
   defp handle_existing_author({:ok, author}), do: author
+
   defp handle_existing_author({:error, changeset}) do
     Repo.get_by!(Author, user_id: changeset.data.user_id)
   end

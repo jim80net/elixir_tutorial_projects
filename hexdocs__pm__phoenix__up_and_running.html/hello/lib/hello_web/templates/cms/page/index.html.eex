@@ -19,8 +19,12 @@
 
       <td>
         <span><%= link "Show", to: Routes.cms_page_path(@conn, :show, page) %></span>
-        <span><%= link "Edit", to: Routes.cms_page_path(@conn, :edit, page) %></span>
-        <span><%= link "Delete", to: Routes.cms_page_path(@conn, :delete, page), method: :delete, data: [confirm: "Are you sure?"] %></span>
+
+        <%= if @conn.assigns.current_author.id == page.author.id do%>
+        <span><%= link "Edit", to: Routes.cms_page_path(@conn, :edit, page, redirect: Routes.cms_page_path(@conn, :index)) %></span>
+        <span><%= link "Delete", to: Routes.cms_page_path(@conn, :delete, page, redirect: Routes.cms_page_path(@conn, :index)), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        <% end %>
+        
       </td>
     </tr>
 <% end %>
