@@ -14,5 +14,6 @@ defmodule HelloTest.Blog.Post do
     post
     |> cast(attrs, [:title, :body])
     |> validate_required([:title, :body])
+    |> validate_length(:title, min: 2)
   end
 end
