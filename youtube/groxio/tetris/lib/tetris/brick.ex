@@ -1,6 +1,7 @@
 defmodule Tetris.Brick do
   alias Tetris.Points
 
+  @x_center 40
   defstruct name: :i,
             location: {40, 0},
             rotation: 0,
@@ -112,19 +113,41 @@ defmodule Tetris.Brick do
     ]
   end
 
-  def to_string(brick) do
+  def prepare(brick) do
     brick
     |> points
-    |> Points.to_string()
+    |> Points.rotate(brick.rotation)
+  end
 
+  def to_string(brick) do
     brick
+    |> prepare
+    |> Points.to_string()
   end
 
   def print(brick) do
     brick
-    |> points
+    |> prepare
     |> Points.print()
 
     brick
+  end
+
+  def color(%{name: :i}), do: :blue
+  def color(%{name: :l}), do: :green
+  def color(%{name: :z}), do: :orange
+  def color(%{name: :o}), do: :red
+  def color(%{name: :t}), do: :yellow
+
+  def x_center(), do: @x_center
+
+  defimpl Inspect, for: Tetris.Brick do
+    import Inspect.Algebra
+
+    def inspect(brick, _opts) do
+      concat([
+        Tetris.Brick.to_string(brick)
+      ])
+    end
   end
 end

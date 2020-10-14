@@ -1,5 +1,5 @@
 defmodule Tetris.Points do
-  def translate(points, {dx, dy}) do
+  def translate(points, {dx, dy} = _location) do
     Enum.map(points, fn {x, y} -> {dx + x, dy + y} end)
   end
 
@@ -47,6 +47,13 @@ defmodule Tetris.Points do
     |> rotate(90)
     |> rotate(180)
   end
+
+  def with_color(points, color) do
+    Enum.map(points, fn point -> add_color(point, color) end)
+  end
+
+  defp add_color({_x, _y, _c} = point, _color), do: point
+  defp add_color({x, y}, color), do: {x, y, color}
 
   def to_string(points) do
     map =
