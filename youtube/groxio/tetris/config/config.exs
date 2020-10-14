@@ -10,10 +10,10 @@ use Mix.Config
 # Configures the endpoint
 config :tetris, TetrisWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "cY+r596ZNZWkbnIzBUjkWAzbfiJ4DOSYv7jtFCEa4/Z3WKBm6gPEX63BupvaAeaI",
+  secret_key_base: "ZZxcn2MrD3luNqqD0HLN8pH0mkh5wnbU5qmhwiJDQhV9AmSVF9t8U8Z9FmNBKd3+",
   render_errors: [view: TetrisWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Tetris.PubSub,
-  live_view: [signing_salt: "52kgkcIx"]
+  live_view: [signing_salt: "q2MDpoVM"]
 
 # Configures Elixir's Logger
 config :logger, :console,

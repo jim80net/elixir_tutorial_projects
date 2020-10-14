@@ -7,7 +7,7 @@ defmodule TetrisWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_tetris_key",
-    signing_salt: "EY472jZ7"
+    signing_salt: "b1AriJBG"
   ]
 
   socket "/socket", TetrisWeb.UserSocket,
