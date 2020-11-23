@@ -9,6 +9,17 @@
 # move said applications out of the umbrella.
 import Config
 
+config :auction_web,
+  generators: [context_app: false]
+
+# Configures the endpoint
+config :auction_web, AuctionWeb.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "/hJxNm6ie8Un8dkUqPrFpAID5gWDIzPlZm5LXwi9dNA6EhADgJXkM5nScwV7ZZzJ",
+  render_errors: [view: AuctionWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Auction.PubSub,
+  live_view: [signing_salt: "Sxkr/6g4"]
+
 # Sample configuration:
 #
 #     config :logger, :console,
@@ -16,3 +27,15 @@ import Config
 #       format: "$date $time [$level] $metadata$message\n",
 #       metadata: [:user_id]
 #
+
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
+
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env()}.exs"
